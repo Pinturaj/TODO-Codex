@@ -39,7 +39,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             ItemListView(sortDescriptors: sortOption.sortDescriptors, startEdit: startEdit, delete: delete)
-                .navigationTitle("My Tasks")
+                .navigationTitle("My Tasks:")
                 .toolbarTitleDisplayMode(.automatic)
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
