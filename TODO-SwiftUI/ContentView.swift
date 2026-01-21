@@ -67,7 +67,6 @@ struct ContentView: View {
                     TaskEditorView(itemToEdit: itemToEdit)
                 }
         }
-        .gradientBackground()
     }
 
     private func startEdit(_ item: Item) {
@@ -186,8 +185,8 @@ private struct ItemListView: View {
     }
 }
 
-#Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
-}
+//#Preview {
+//    ContentView()
+//        .modelContainer(for: Item.self, inMemory: true)
+//}
 

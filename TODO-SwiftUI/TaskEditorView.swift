@@ -511,7 +511,7 @@ struct TaskEditorView: View {
             }
             .onAppear(perform: loadIfNeeded)
         }
-        .gradientBackground()
+        
     }
 
     private func loadIfNeeded() {
