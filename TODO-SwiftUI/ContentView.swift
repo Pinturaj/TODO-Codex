@@ -10,6 +10,7 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject private var auth: AuthStore
 
     enum SortOption: String, CaseIterable, Identifiable {
         case byDate = "Date Created"
@@ -32,12 +33,22 @@ struct ContentView: View {
         }
     }
 
+    private enum LoginIntent {
+        case addTask
+        case profile
+        case none
+    }
+
     @State private var sortOption: SortOption = .byDate
     @State private var showEditor: Bool = false
     @State private var itemToEdit: Item? = nil
 
+    @State private var showLoginFullScreen: Bool = false
+    @State private var navPath: [String] = []
+    @State private var loginIntent: LoginIntent = .none
+
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navPath) {
             ItemListView(sortDescriptors: sortOption.sortDescriptors, startEdit: startEdit, delete: delete)
                 .navigationTitle("My Tasks")
                 .toolbarTitleDisplayMode(.automatic)
@@ -54,18 +65,68 @@ struct ContentView: View {
                         }
                     }
                     ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            itemToEdit = nil
-                            showEditor = true
-                        } label: {
-                            Label("Add Task", systemImage: "plus.circle.fill")
+                        HStack {
+                            Button {
+                                handleProfileTapped()
+                            } label: {
+                                Image(systemName: "person.crop.circle")
+                            }
+                            Button {
+                                handleAddTaskTapped()
+                            } label: {
+                                Label("Add Task", systemImage: "plus.circle.fill")
+                            }
+                            .keyboardShortcut(.init("n"), modifiers: [.command])
                         }
-                        .keyboardShortcut(.init("n"), modifiers: [.command])
                     }
                 }
                 .sheet(isPresented: $showEditor) {
                     TaskEditorView(itemToEdit: itemToEdit)
                 }
+                .navigationDestination(for: String.self) { route in
+                    switch route {
+                    case "profile":
+                        ProfileView(vm: ProfileViewModel(auth: auth))
+                    default:
+                        EmptyView()
+                    }
+                }
+                .fullScreenCover(isPresented: $showLoginFullScreen) {
+                    LoginView(vm: LoginViewModel(auth: auth) {
+                        // on success: dismiss login and route based on intent
+                        showLoginFullScreen = false
+                        switch loginIntent {
+                        case .addTask:
+                            itemToEdit = nil
+                            showEditor = true
+                        case .profile:
+                            navPath.append("profile")
+                        case .none:
+                            break
+                        }
+                        loginIntent = .none
+                    })
+                }
+        }
+        .globalGradientBackground()
+    }
+
+    private func handleProfileTapped() {
+        if auth.isLoggedIn {
+            navPath.append("profile")
+        } else {
+            loginIntent = .profile
+            showLoginFullScreen = true
+        }
+    }
+
+    private func handleAddTaskTapped() {
+        if auth.isLoggedIn {
+            itemToEdit = nil
+            showEditor = true
+        } else {
+            loginIntent = .addTask
+            showLoginFullScreen = true
         }
     }
 
@@ -99,10 +160,10 @@ private struct ItemListView: View {
             VStack(spacing: 16) {
                 Image(systemName: "checklist")
                     .font(.system(size: 48))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.white)
                 Text("No tasks yet")
                     .font(.title3)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.white)
                 // The add button is managed by the parent toolbar/sheet
             }
             .padding()
@@ -185,8 +246,7 @@ private struct ItemListView: View {
     }
 }
 
-//#Preview {
-//    ContentView()
-//        .modelContainer(for: Item.self, inMemory: true)
-//}
-
+#Preview {
+    ContentView()
+        .modelContainer(for: Item.self, inMemory: true)
+}
