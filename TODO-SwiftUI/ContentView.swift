@@ -10,6 +10,7 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject private var auth: AuthStore
 
     enum SortOption: String, CaseIterable, Identifiable {
         case byDate = "Date Created"
@@ -32,42 +33,105 @@ struct ContentView: View {
         }
     }
 
+    private enum LoginIntent {
+        case addTask
+        case profile
+        case none
+    }
+
     @State private var sortOption: SortOption = .byDate
     @State private var showEditor: Bool = false
     @State private var itemToEdit: Item? = nil
 
+    @State private var showLoginFullScreen: Bool = false
+    @State private var navPath: [String] = []
+    @State private var loginIntent: LoginIntent = .none
+
     var body: some View {
-        NavigationStack {
-            ItemListView(sortDescriptors: sortOption.sortDescriptors, startEdit: startEdit, delete: delete)
-                .navigationTitle("My Tasks:")
-                .toolbarTitleDisplayMode(.automatic)
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Menu {
-                            Picker("Sort by", selection: $sortOption) {
-                                ForEach(SortOption.allCases) { option in
-                                    Text(option.rawValue).tag(option)
+        ZStack {
+            GradientBackground() // ensures gradient sits behind everything
+            NavigationStack(path: $navPath) {
+                ItemListView(sortDescriptors: sortOption.sortDescriptors, startEdit: startEdit, delete: delete)
+                    .navigationTitle("My Tasks")
+                    .toolbarTitleDisplayMode(.automatic)
+                    .toolbarBackground(.clear, for: .navigationBar)
+//                    .toolbarBackground(.visible, for: .navigationBar)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Menu {
+                                Picker("Sort by", selection: $sortOption) {
+                                    ForEach(SortOption.allCases) { option in
+                                        Text(option.rawValue).tag(option)
+                                    }
                                 }
+                            } label: {
+                                Label("Sort", systemImage: "arrow.up.arrow.down")
                             }
-                        } label: {
-                            Label("Sort", systemImage: "arrow.up.arrow.down")
+                        }
+                        ToolbarItem(placement: .topBarTrailing) {
+                            HStack {
+                                Button {
+                                    handleProfileTapped()
+                                } label: {
+                                    Image(systemName: "person.crop.circle")
+                                }
+                                Button {
+                                    handleAddTaskTapped()
+                                } label: {
+                                    Label("Add Task", systemImage: "plus.circle.fill")
+                                }
+                                .keyboardShortcut(.init("n"), modifiers: [.command])
+                            }
                         }
                     }
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            itemToEdit = nil
-                            showEditor = true
-                        } label: {
-                            Label("Add Task", systemImage: "plus.circle.fill")
-                        }
-                        .keyboardShortcut(.init("n"), modifiers: [.command])
+                    .sheet(isPresented: $showEditor) {
+                        TaskEditorView(itemToEdit: itemToEdit)
                     }
-                }
-                .sheet(isPresented: $showEditor) {
-                    TaskEditorView(itemToEdit: itemToEdit)
-                }
+                    .navigationDestination(for: String.self) { route in
+                        switch route {
+                        case "profile":
+                            ProfileView(vm: ProfileViewModel(auth: auth))
+                        default:
+                            EmptyView()
+                        }
+                    }
+                    .fullScreenCover(isPresented: $showLoginFullScreen) {
+                        LoginView(vm: LoginViewModel(auth: auth) {
+                            // on success: dismiss login and route based on intent
+                            showLoginFullScreen = false
+                            switch loginIntent {
+                            case .addTask:
+                                itemToEdit = nil
+                                showEditor = true
+                            case .profile:
+                                navPath.append("profile")
+                            case .none:
+                                break
+                            }
+                            loginIntent = .none
+                        })
+                    }
+            }
         }
-        .gradientBackground()
+    }
+
+    private func handleProfileTapped() {
+        if auth.isLoggedIn {
+            navPath.append("profile")
+        } else {
+            loginIntent = .profile
+            showLoginFullScreen = true
+        }
+    }
+
+    private func handleAddTaskTapped() {
+        if auth.isLoggedIn {
+            itemToEdit = nil
+            showEditor = true
+        } else {
+            loginIntent = .addTask
+            showLoginFullScreen = true
+        }
     }
 
     private func startEdit(_ item: Item) {
@@ -186,8 +250,7 @@ private struct ItemListView: View {
     }
 }
 
-#Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
-}
-
+//#Preview {
+//    ContentView()
+//        .modelContainer(for: Item.self, inMemory: true)
+//}

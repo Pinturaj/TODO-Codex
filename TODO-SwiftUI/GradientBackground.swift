@@ -1,13 +1,11 @@
 import SwiftUI
 
 struct GradientBackground: View {
+    var config: GradientTheme.Config = GradientTheme.current
+
     var body: some View {
-        LinearGradient(
-            colors: [Color.blue, Color.purple],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-        .ignoresSafeArea()
+        LinearGradient(colors: config.colors, startPoint: config.startPoint, endPoint: config.endPoint)
+            .ignoresSafeArea()
     }
 }
 
@@ -21,7 +19,7 @@ struct GradientBackgroundModifier: ViewModifier {
 }
 
 extension View {
-    func gradientBackground() -> some View {
-        self.modifier(GradientBackgroundModifier())
+    func globalGradientBackground() -> some View {
+        modifier(GradientBackgroundModifier())
     }
 }
