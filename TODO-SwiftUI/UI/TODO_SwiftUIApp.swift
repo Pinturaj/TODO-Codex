@@ -65,8 +65,8 @@ private final class AuthStoreHolder: ObservableObject {
     let authStore: AuthStore
 
     init() {
-        // Initialize API without a model context; we'll inject it later.
-        self.apiHandler = APIHandler(modelContext: nil)
+        // Initialize API handler.
+        self.apiHandler = APIHandler()
 
         // Create a temporary in-memory ModelContainer/ModelContext
         let tempSchema = Schema([

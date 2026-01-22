@@ -1,18 +1,20 @@
 import Foundation
-import SwiftData
 
 actor APIHandler {
     private let baseURL = URL(string: "https://dummyjson.com")!
-    private weak var modelContext: ModelContext?
     private var isRefreshing = false
     private var refreshContinuations: [CheckedContinuation<Void, Error>] = []
+    private var accessTokenProvider: (@Sendable () async -> String?)?
+    private var refreshTokenProvider: (@Sendable () async -> String?)?
 
-    init(modelContext: ModelContext?) {
-        self.modelContext = modelContext
-    }
+    init() {}
 
-    func setModelContext(_ context: ModelContext?) {
-        self.modelContext = context
+    func setTokenProviders(
+        access: @escaping @Sendable () async -> String?,
+        refresh: @escaping @Sendable () async -> String?
+    ) {
+        accessTokenProvider = access
+        refreshTokenProvider = refresh
     }
     
     func request<T: Decodable, Body: Encodable>(
@@ -22,7 +24,7 @@ actor APIHandler {
         authorized: Bool = false,
         responseType: T.Type = T.self
     ) async throws -> T {
-        var urlRequest = try makeRequest(path: path, method: method, body: body, authorized: authorized)
+        var urlRequest = try await makeRequest(path: path, method: method, body: body, authorized: authorized)
 
         do {
             let (data, response) = try await URLSession.shared.data(for: urlRequest)
@@ -35,9 +37,10 @@ actor APIHandler {
                 }
                 return try JSONDecoder().decode(T.self, from: data)
             case 401:
+                guard authorized else { throw APIError.unauthorized }
                 // attempt refresh and retry once
                 try await refreshIfNeeded()
-                urlRequest = try makeRequest(path: path, method: method, body: body, authorized: authorized)
+                urlRequest = try await makeRequest(path: path, method: method, body: body, authorized: authorized)
                 let (data2, response2) = try await URLSession.shared.data(for: urlRequest)
                 guard let http2 = response2 as? HTTPURLResponse else { throw APIError.transport(URLError(.badServerResponse)) }
                 guard (200..<300).contains(http2.statusCode) else {
@@ -63,7 +66,7 @@ actor APIHandler {
         method: String,
         body: Body?,
         authorized: Bool
-    ) throws -> URLRequest {
+    ) async throws -> URLRequest {
         guard let url = URL(string: path, relativeTo: baseURL) else { throw APIError.invalidURL }
         var req = URLRequest(url: url)
         req.httpMethod = method
@@ -72,29 +75,19 @@ actor APIHandler {
             req.httpBody = try JSONEncoder().encode(body)
         }
         if authorized {
-            if let token = currentAccessToken() {
+            if let token = await currentAccessToken() {
                 req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
             }
         }
         return req
     }
 
-    private func currentAccessToken() -> String? {
-        guard let mc = modelContext else { return nil }
-        let descriptor = FetchDescriptor<Session>(predicate: nil, sortBy: [])
-        if let session = try? mc.fetch(descriptor).first {
-            return session.accessToken
-        }
-        return nil
+    private func currentAccessToken() async -> String? {
+        await accessTokenProvider?()
     }
 
-    private func currentRefreshToken() -> String? {
-        guard let mc = modelContext else { return nil }
-        let descriptor = FetchDescriptor<Session>(predicate: nil, sortBy: [])
-        if let session = try? mc.fetch(descriptor).first {
-            return session.refreshToken ?? session.accessToken // dummyjson may not provide refresh; fallback
-        }
-        return nil
+    private func currentRefreshToken() async -> String? {
+        await refreshTokenProvider?()
     }
 
     private func refreshIfNeeded() async throws {
@@ -107,11 +100,7 @@ actor APIHandler {
         isRefreshing = true
         defer { isRefreshing = false }
 
-        guard let _ = modelContext else {
-            finishRefresh(with: APIError.refreshUnavailable)
-            throw APIError.refreshUnavailable
-        }
-        guard let _ = currentRefreshToken() else {
+        guard let _ = await currentRefreshToken() else {
             finishRefresh(with: APIError.refreshUnavailable)
             throw APIError.refreshUnavailable
         }
