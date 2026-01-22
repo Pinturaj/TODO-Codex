@@ -21,6 +21,8 @@ struct ProfileView: View {
                 }
             }
         }
+        .scrollContentBackground(.hidden)
+        .background(Color.clear)
         .navigationTitle("Profile")
         .globalGradientBackground()
     }

@@ -31,14 +31,8 @@ struct TODO_SwiftUIApp: App {
         WindowGroup {
             RootView()
                 .environmentObject(authStoreHolder.authStore)
-                .onAppear {
-                    // Ensure auth store has model context after container is attached
-                }
         }
         .modelContainer(sharedModelContainer)
-        .onChange(of: sharedModelContainer) { _, _ in
-            // no-op; container is constant in this app
-        }
     }
 }
 
@@ -52,7 +46,6 @@ private final class AuthStoreHolder: ObservableObject {
         self.apiHandler = APIHandler(modelContext: nil)
 
         // Create a temporary in-memory ModelContainer/ModelContext
-        // so AuthStore can be constructed before the real context is available.
         let tempSchema = Schema([
             Item.self,
             Session.self,
@@ -76,7 +69,20 @@ private struct RootView: View {
             .onAppear {
                 // Re-wire model context into stores once available
                 auth.setModelContext(modelContext)
+                configureTransparentNavigationBar()
             }
             .globalGradientBackground()
+    }
+
+    private func configureTransparentNavigationBar() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.backgroundColor = .clear
+        appearance.shadowColor = .clear
+
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().compactScrollEdgeAppearance = appearance
     }
 }

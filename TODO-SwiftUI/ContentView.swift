@@ -48,67 +48,71 @@ struct ContentView: View {
     @State private var loginIntent: LoginIntent = .none
 
     var body: some View {
-        NavigationStack(path: $navPath) {
-            ItemListView(sortDescriptors: sortOption.sortDescriptors, startEdit: startEdit, delete: delete)
-                .navigationTitle("My Tasks")
-                .toolbarTitleDisplayMode(.automatic)
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Menu {
-                            Picker("Sort by", selection: $sortOption) {
-                                ForEach(SortOption.allCases) { option in
-                                    Text(option.rawValue).tag(option)
+        ZStack {
+            GradientBackground() // ensures gradient sits behind everything
+            NavigationStack(path: $navPath) {
+                ItemListView(sortDescriptors: sortOption.sortDescriptors, startEdit: startEdit, delete: delete)
+                    .navigationTitle("My Tasks")
+                    .toolbarTitleDisplayMode(.automatic)
+                    .toolbarBackground(.clear, for: .navigationBar)
+//                    .toolbarBackground(.visible, for: .navigationBar)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Menu {
+                                Picker("Sort by", selection: $sortOption) {
+                                    ForEach(SortOption.allCases) { option in
+                                        Text(option.rawValue).tag(option)
+                                    }
                                 }
-                            }
-                        } label: {
-                            Label("Sort", systemImage: "arrow.up.arrow.down")
-                        }
-                    }
-                    ToolbarItem(placement: .topBarTrailing) {
-                        HStack {
-                            Button {
-                                handleProfileTapped()
                             } label: {
-                                Image(systemName: "person.crop.circle")
+                                Label("Sort", systemImage: "arrow.up.arrow.down")
                             }
-                            Button {
-                                handleAddTaskTapped()
-                            } label: {
-                                Label("Add Task", systemImage: "plus.circle.fill")
+                        }
+                        ToolbarItem(placement: .topBarTrailing) {
+                            HStack {
+                                Button {
+                                    handleProfileTapped()
+                                } label: {
+                                    Image(systemName: "person.crop.circle")
+                                }
+                                Button {
+                                    handleAddTaskTapped()
+                                } label: {
+                                    Label("Add Task", systemImage: "plus.circle.fill")
+                                }
+                                .keyboardShortcut(.init("n"), modifiers: [.command])
                             }
-                            .keyboardShortcut(.init("n"), modifiers: [.command])
                         }
                     }
-                }
-                .sheet(isPresented: $showEditor) {
-                    TaskEditorView(itemToEdit: itemToEdit)
-                }
-                .navigationDestination(for: String.self) { route in
-                    switch route {
-                    case "profile":
-                        ProfileView(vm: ProfileViewModel(auth: auth))
-                    default:
-                        EmptyView()
+                    .sheet(isPresented: $showEditor) {
+                        TaskEditorView(itemToEdit: itemToEdit)
                     }
-                }
-                .fullScreenCover(isPresented: $showLoginFullScreen) {
-                    LoginView(vm: LoginViewModel(auth: auth) {
-                        // on success: dismiss login and route based on intent
-                        showLoginFullScreen = false
-                        switch loginIntent {
-                        case .addTask:
-                            itemToEdit = nil
-                            showEditor = true
-                        case .profile:
-                            navPath.append("profile")
-                        case .none:
-                            break
+                    .navigationDestination(for: String.self) { route in
+                        switch route {
+                        case "profile":
+                            ProfileView(vm: ProfileViewModel(auth: auth))
+                        default:
+                            EmptyView()
                         }
-                        loginIntent = .none
-                    })
-                }
+                    }
+                    .fullScreenCover(isPresented: $showLoginFullScreen) {
+                        LoginView(vm: LoginViewModel(auth: auth) {
+                            // on success: dismiss login and route based on intent
+                            showLoginFullScreen = false
+                            switch loginIntent {
+                            case .addTask:
+                                itemToEdit = nil
+                                showEditor = true
+                            case .profile:
+                                navPath.append("profile")
+                            case .none:
+                                break
+                            }
+                            loginIntent = .none
+                        })
+                    }
+            }
         }
-        .globalGradientBackground()
     }
 
     private func handleProfileTapped() {
@@ -160,10 +164,10 @@ private struct ItemListView: View {
             VStack(spacing: 16) {
                 Image(systemName: "checklist")
                     .font(.system(size: 48))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.secondary)
                 Text("No tasks yet")
                     .font(.title3)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.secondary)
                 // The add button is managed by the parent toolbar/sheet
             }
             .padding()
@@ -234,6 +238,8 @@ private struct ItemListView: View {
                 }
             }
             .listStyle(.insetGrouped)
+            .scrollContentBackground(.hidden)
+            .background(Color.clear)
         }
     }
 
@@ -246,7 +252,7 @@ private struct ItemListView: View {
     }
 }
 
-#Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
-}
+//#Preview {
+//    ContentView()
+//        .modelContainer(for: Item.self, inMemory: true)
+//}
