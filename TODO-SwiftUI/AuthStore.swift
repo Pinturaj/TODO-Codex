@@ -55,7 +55,7 @@ final class AuthStore: ObservableObject {
     }
 
     func login(username: String, password: String) async throws {
-        let req = LoginRequest(username: "emilys", password: "emilyspass", expiresInMins: 30)
+        let req = LoginRequest(username: username, password: password, expiresInMins: 30)
         let resp: LoginResponse = try await api.request("/auth/login", method: "POST", body: req, authorized: false)
 
         let access = resp.accessToken ?? resp.token ?? ""
