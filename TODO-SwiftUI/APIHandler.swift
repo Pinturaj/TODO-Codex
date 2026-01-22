@@ -15,8 +15,6 @@ actor APIHandler {
         self.modelContext = context
     }
     
-    //TODO
-
     func request<T: Decodable, Body: Encodable>(
         _ path: String,
         method: String = "GET",
