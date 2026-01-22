@@ -31,7 +31,7 @@ actor APIHandler {
             switch http.statusCode {
             case 200..<300:
                 if T.self == EmptyResponse.self {
-                    return EmptyResponse() as! T
+                    return await EmptyResponse() as! T
                 }
                 return try JSONDecoder().decode(T.self, from: data)
             case 401:
