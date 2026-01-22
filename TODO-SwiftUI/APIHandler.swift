@@ -1,26 +1,6 @@
 import Foundation
 import SwiftData
 
-enum APIError: Error, LocalizedError {
-    case invalidURL
-    case decodingFailed
-    case unauthorized
-    case refreshUnavailable
-    case server(status: Int)
-    case transport(Error)
-
-    var errorDescription: String? {
-        switch self {
-        case .invalidURL: return "Invalid URL"
-        case .decodingFailed: return "Failed to decode response"
-        case .unauthorized: return "Unauthorized"
-        case .refreshUnavailable: return "Refresh token not available"
-        case .server(let status): return "Server error \(status)"
-        case .transport(let e): return "Network error: \(e.localizedDescription)"
-        }
-    }
-}
-
 actor APIHandler {
     private let baseURL = URL(string: "https://dummyjson.com")!
     private weak var modelContext: ModelContext?
@@ -127,11 +107,11 @@ actor APIHandler {
         isRefreshing = true
         defer { isRefreshing = false }
 
-        guard let mc = modelContext else {
+        guard let _ = modelContext else {
             finishRefresh(with: APIError.refreshUnavailable)
             throw APIError.refreshUnavailable
         }
-        guard let refreshToken = currentRefreshToken() else {
+        guard let _ = currentRefreshToken() else {
             finishRefresh(with: APIError.refreshUnavailable)
             throw APIError.refreshUnavailable
         }
@@ -153,5 +133,3 @@ actor APIHandler {
         }
     }
 }
-
-struct EmptyResponse: Decodable { }
