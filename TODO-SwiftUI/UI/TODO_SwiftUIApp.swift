@@ -9,6 +9,29 @@ import SwiftUI
 import SwiftData
 import Combine
 
+
+
+/*
+
+
+Move files into groups
+• Networking
+• APIHandler.swift􀰓
+• APIError.swift
+• EmptyResponse.swift
+• Auth
+• AuthStore.swift􀰓
+• Session.swift􀰓
+• UI
+• TODO_SwiftUIApp.swift􀰓
+• ContentView.swift􀰓
+• TaskEditorView.swift􀰓
+• Any other views/view models you have like LoginView, ProfileView, ProfileViewModel
+• Models
+• Item.swift (and any other data model files)
+
+*/
+
 @main
 struct TODO_SwiftUIApp: App {
     @StateObject private var authStoreHolder = AuthStoreHolder()
@@ -42,8 +65,8 @@ private final class AuthStoreHolder: ObservableObject {
     let authStore: AuthStore
 
     init() {
-        // Initialize API without a model context; we'll inject it later.
-        self.apiHandler = APIHandler(modelContext: nil)
+        // Initialize API handler.
+        self.apiHandler = APIHandler()
 
         // Create a temporary in-memory ModelContainer/ModelContext
         let tempSchema = Schema([

@@ -6,8 +6,8 @@ final class Session {
     @Attribute(.unique) var id: UUID
     var username: String
     var email: String?
-    var accessToken: String
-    var refreshToken: String?
+    var accessTokenKey: String
+    var refreshTokenKey: String?
     var accessTokenExpiry: Date?
     var refreshTokenExpiry: Date?
     var userId: Int?
@@ -16,8 +16,8 @@ final class Session {
         id: UUID = UUID(),
         username: String,
         email: String? = nil,
-        accessToken: String,
-        refreshToken: String? = nil,
+        accessTokenKey: String,
+        refreshTokenKey: String? = nil,
         accessTokenExpiry: Date? = nil,
         refreshTokenExpiry: Date? = nil,
         userId: Int? = nil
@@ -25,8 +25,8 @@ final class Session {
         self.id = id
         self.username = username
         self.email = email
-        self.accessToken = accessToken
-        self.refreshToken = refreshToken
+        self.accessTokenKey = accessTokenKey
+        self.refreshTokenKey = refreshTokenKey
         self.accessTokenExpiry = accessTokenExpiry
         self.refreshTokenExpiry = refreshTokenExpiry
         self.userId = userId

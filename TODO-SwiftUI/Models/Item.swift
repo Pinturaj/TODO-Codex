@@ -8,8 +8,6 @@
 
 import Foundation
 import SwiftData
-//TODO
-//TODO
 
 @Model
 final class Item: Identifiable {
