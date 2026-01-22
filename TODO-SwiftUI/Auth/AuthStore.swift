@@ -5,37 +5,70 @@ import Combine
 
 @MainActor
 final class AuthStore: ObservableObject {
+    private enum TokenKeys {
+        static let access = "todo.accessToken"
+        static let refresh = "todo.refreshToken"
+    }
+
     @Published private(set) var isLoggedIn: Bool = false
     @Published private(set) var currentSession: Session?
 
     private var modelContext: ModelContext
     private let api: APIHandler
+    private let keychain = KeychainStore()
 
     init(modelContext: ModelContext, api: APIHandler) {
         self.modelContext = modelContext
         self.api = api
+        let keychain = self.keychain
+        Task {
+            await api.setTokenProviders(
+                access: {
+                    keychain.read(TokenKeys.access)
+                },
+                refresh: {
+                    keychain.read(TokenKeys.refresh)
+                }
+            )
+        }
         loadSession()
     }
 
     func setModelContext(_ context: ModelContext) {
         self.modelContext = context
-        Task {
-            await api.setModelContext(context)
-            await MainActor.run {
-                self.loadSession()
-            }
-        }
+        loadSession()
     }
 
     private func loadSession() {
         let descriptor = FetchDescriptor<Session>()
-        if let session = try? modelContext.fetch(descriptor).first {
-            currentSession = session
-            isLoggedIn = true
-        } else {
-            currentSession = nil
-            isLoggedIn = false
+        guard let session = try? modelContext.fetch(descriptor).first else {
+            clearSessionState()
+            return
         }
+        if let expiry = session.accessTokenExpiry, expiry <= Date() {
+            purgeSessionData()
+            return
+        }
+        guard keychain.read(session.accessTokenKey) != nil else {
+            purgeSessionData()
+            return
+        }
+        currentSession = session
+        isLoggedIn = true
+    }
+
+    private func clearSessionState() {
+        currentSession = nil
+        isLoggedIn = false
+    }
+
+    private func purgeSessionData() {
+        let existing = try? modelContext.fetch(FetchDescriptor<Session>())
+        existing?.forEach { modelContext.delete($0) }
+        try? modelContext.save()
+        keychain.delete(TokenKeys.access)
+        keychain.delete(TokenKeys.refresh)
+        clearSessionState()
     }
 
     struct LoginRequest: Encodable {
@@ -61,12 +94,19 @@ final class AuthStore: ObservableObject {
         let access = resp.accessToken ?? resp.token ?? ""
         guard !access.isEmpty else { throw APIError.unauthorized }
 
+        try keychain.write(access, for: TokenKeys.access)
+        if let refresh = resp.refreshToken {
+            try keychain.write(refresh, for: TokenKeys.refresh)
+        } else {
+            keychain.delete(TokenKeys.refresh)
+        }
+
         // Save session
         let session = Session(
             username: resp.username,
             email: resp.email,
-            accessToken: access,
-            refreshToken: resp.refreshToken,
+            accessTokenKey: TokenKeys.access,
+            refreshTokenKey: resp.refreshToken == nil ? nil : TokenKeys.refresh,
             accessTokenExpiry: resp.expiresInMins.flatMap { Date().addingTimeInterval(TimeInterval($0 * 60)) },
             userId: resp.id
         )
@@ -74,7 +114,7 @@ final class AuthStore: ObservableObject {
         let existing = try? modelContext.fetch(FetchDescriptor<Session>())
         existing?.forEach { modelContext.delete($0) }
         modelContext.insert(session)
-        try? modelContext.save()
+        try modelContext.save()
 
         currentSession = session
         isLoggedIn = true
@@ -84,6 +124,8 @@ final class AuthStore: ObservableObject {
         let existing = try? modelContext.fetch(FetchDescriptor<Session>())
         existing?.forEach { modelContext.delete($0) }
         try? modelContext.save()
+        keychain.delete(TokenKeys.access)
+        keychain.delete(TokenKeys.refresh)
         currentSession = nil
         isLoggedIn = false
     }
