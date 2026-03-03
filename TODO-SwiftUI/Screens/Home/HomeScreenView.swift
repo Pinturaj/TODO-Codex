@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  HomeScreenView.swift
 //  TODO-SwiftUI
 //
 //  Created by Appsquadz on 19/01/26.
@@ -7,8 +7,9 @@
 
 import SwiftUI
 import SwiftData
+import GoogleGenerativeAI
 
-struct ContentView: View {
+struct HomeScreenView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject private var auth: AuthStore
 
@@ -51,7 +52,12 @@ struct ContentView: View {
         ZStack {
             GradientBackground() // ensures gradient sits behind everything
             NavigationStack(path: $navPath) {
-                ItemListView(sortDescriptors: sortOption.sortDescriptors, startEdit: startEdit, delete: delete)
+                ItemListView(
+                    userId: auth.currentSession?.userId,
+                    sortDescriptors: sortOption.sortDescriptors,
+                    startEdit: startEdit,
+                    delete: delete
+                )
                     .navigationTitle("My Tasks")
                     .toolbarTitleDisplayMode(.automatic)
                     .toolbarBackground(.clear, for: .navigationBar)
@@ -86,6 +92,7 @@ struct ContentView: View {
                     }
                     .sheet(isPresented: $showEditor) {
                         TaskEditorView(itemToEdit: itemToEdit)
+                            .environmentObject(auth)
                     }
                     .navigationDestination(for: String.self) { route in
                         switch route {
@@ -122,8 +129,10 @@ struct ContentView: View {
             loginIntent = .profile
             showLoginFullScreen = true
         }
-    }
+        let model = GenerativeModel(name: "gemini-pro", apiKey: "AIzaSyD08AVVZbwMjeSXGifUWFsah-JLlcMAE1E")
+       
 
+    }
     private func handleAddTaskTapped() {
         if auth.isLoggedIn {
             itemToEdit = nil
@@ -145,6 +154,7 @@ struct ContentView: View {
 }
 
 private struct ItemListView: View {
+    var userId: Int?
     var sortDescriptors: [SortDescriptor<Item>]
     var startEdit: (Item) -> Void
     var delete: (Item) -> Void
@@ -152,11 +162,29 @@ private struct ItemListView: View {
     @Query private var items: [Item]
     @Environment(\.modelContext) private var modelContext
 
-    init(sortDescriptors: [SortDescriptor<Item>], startEdit: @escaping (Item) -> Void, delete: @escaping (Item) -> Void) {
+    init(
+        userId: Int?,
+        sortDescriptors: [SortDescriptor<Item>],
+        startEdit: @escaping (Item) -> Void,
+        delete: @escaping (Item) -> Void
+    ) {
+        self.userId = userId
         self.sortDescriptors = sortDescriptors
         self.startEdit = startEdit
         self.delete = delete
-        _items = Query(sort: sortDescriptors)
+
+        if let uid = userId {
+            _items = Query(
+                filter: #Predicate<Item> { $0.userId == uid },
+                sort: sortDescriptors
+            )
+        } else {
+            // No logged-in user: show empty list by filtering to nil userId (no items should match)
+            _items = Query(
+                filter: #Predicate<Item> { $0.userId == nil },
+                sort: sortDescriptors
+            )
+        }
     }
 
     var body: some View {

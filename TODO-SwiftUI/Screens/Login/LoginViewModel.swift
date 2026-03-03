@@ -42,7 +42,11 @@ final class LoginViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }
         do {
-            try await auth.login(username: username, password: password)
+//            try await auth.login(username: username, password: password)
+            try await auth.login(username: "emilys", password: "emilyspass")
+//            try await auth.login(username: "michaelw", password: "michaelwpass")
+//            try await auth.login(username: "sophiab", password: "sophiabpass")
+
             onSuccess()
         } catch {
             errorMessage = error.localizedDescription

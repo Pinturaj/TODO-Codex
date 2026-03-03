@@ -18,8 +18,19 @@ final class Item: Identifiable {
     var dueDate: Date?
     var completed: Bool
     var timestamp: Date
+    // Bind tasks to a user; nil means not associated to any user (legacy or pre-login)
+    var userId: Int?
 
-    init(id: UUID = UUID(), title: String, notes: String = "", priority: Int = 1, dueDate: Date? = nil, completed: Bool = false, timestamp: Date = Date()) {
+    init(
+        id: UUID = UUID(),
+        title: String,
+        notes: String = "",
+        priority: Int = 1,
+        dueDate: Date? = nil,
+        completed: Bool = false,
+        timestamp: Date = Date(),
+        userId: Int? = nil
+    ) {
         self.id = id
         self.title = title
         self.notes = notes
@@ -27,6 +38,7 @@ final class Item: Identifiable {
         self.dueDate = dueDate
         self.completed = completed
         self.timestamp = timestamp
+        self.userId = userId
     }
 }
 
@@ -57,3 +69,4 @@ extension Item {
         set { priority = newValue.rawValue }
     }
 }
+

@@ -4,6 +4,7 @@ import SwiftData
 struct TaskEditorView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject private var auth: AuthStore
 
     var itemToEdit: Item?
 
@@ -93,7 +94,8 @@ struct TaskEditorView: View {
                                priority: priority.rawValue,
                                dueDate: hasDueDate ? dueDate : nil,
                                completed: completed,
-                               timestamp: Date())
+                               timestamp: Date(),
+                               userId: auth.currentSession?.userId)
             modelContext.insert(newItem)
         }
         dismiss()
@@ -105,3 +107,4 @@ struct TaskEditorView: View {
     return TaskEditorView()
         .modelContainer(container)
 }
+

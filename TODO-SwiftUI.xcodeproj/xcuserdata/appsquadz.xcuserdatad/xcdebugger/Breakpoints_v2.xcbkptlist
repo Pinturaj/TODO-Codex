@@ -148,5 +148,335 @@
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "78A716D4-D840-4A86-A073-3B15B638B385"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TODO-SwiftUI/Screens/Login/LoginViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "init(auth:onSuccess:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4C16B111-6221-4AFB-B039-9D193777FC2F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TODO-SwiftUI/Auth/AuthStore.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "init(modelContext:api:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "076B6758-E694-476C-A744-439F15BA2D11"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TODO-SwiftUI/Auth/AuthStore.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "init(modelContext:api:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "076B6758-E694-476C-A744-439F15BA2D11 - 730beef6f59cad84"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #1 @Sendable () async -&gt; Swift.Optional&lt;Swift.String&gt; in closure #1 () async -&gt; () in TODO_SwiftUI.AuthStore.init(modelContext: SwiftData.ModelContext, api: TODO_SwiftUI.APIHandler) -&gt; TODO_SwiftUI.AuthStore"
+                  moduleName = "TODO-SwiftUI.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appsquadz/Documents/Apps/Codex/TODO-SwiftUI/Auth/AuthStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29">
+               </Location>
+               <Location
+                  uuid = "076B6758-E694-476C-A744-439F15BA2D11 - 66b9bc18c3680f85"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) suspend resume partial function for closure #1 @Sendable () async -&gt; Swift.Optional&lt;Swift.String&gt; in closure #1 () async -&gt; () in TODO_SwiftUI.AuthStore.init(modelContext: SwiftData.ModelContext, api: TODO_SwiftUI.APIHandler) -&gt; TODO_SwiftUI.AuthStore"
+                  moduleName = "TODO-SwiftUI.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appsquadz/Documents/Apps/Codex/TODO-SwiftUI/Auth/AuthStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29">
+               </Location>
+               <Location
+                  uuid = "076B6758-E694-476C-A744-439F15BA2D11 - 59d7930b10456186"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for closure #1 @Sendable () async -&gt; Swift.Optional&lt;Swift.String&gt; in closure #1 () async -&gt; () in TODO_SwiftUI.AuthStore.init(modelContext: SwiftData.ModelContext, api: TODO_SwiftUI.APIHandler) -&gt; TODO_SwiftUI.AuthStore"
+                  moduleName = "TODO-SwiftUI.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appsquadz/Documents/Apps/Codex/TODO-SwiftUI/Auth/AuthStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29">
+               </Location>
+               <Location
+                  uuid = "076B6758-E694-476C-A744-439F15BA2D11 - b305663d7d52c387"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for closure #1 @Sendable () async -&gt; Swift.Optional&lt;Swift.String&gt; in closure #1 () async -&gt; () in TODO_SwiftUI.AuthStore.init(modelContext: SwiftData.ModelContext, api: TODO_SwiftUI.APIHandler) -&gt; TODO_SwiftUI.AuthStore"
+                  moduleName = "TODO-SwiftUI.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appsquadz/Documents/Apps/Codex/TODO-SwiftUI/Auth/AuthStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29">
+               </Location>
+               <Location
+                  uuid = "076B6758-E694-476C-A744-439F15BA2D11 - a6b3352f4a2e2580"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) suspend resume partial function for closure #1 @Sendable () async -&gt; Swift.Optional&lt;Swift.String&gt; in closure #1 () async -&gt; () in TODO_SwiftUI.AuthStore.init(modelContext: SwiftData.ModelContext, api: TODO_SwiftUI.APIHandler) -&gt; TODO_SwiftUI.AuthStore"
+                  moduleName = "TODO-SwiftUI.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appsquadz/Documents/Apps/Codex/TODO-SwiftUI/Auth/AuthStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29">
+               </Location>
+               <Location
+                  uuid = "076B6758-E694-476C-A744-439F15BA2D11 - 99e10851973b8781"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(6) suspend resume partial function for closure #1 @Sendable () async -&gt; Swift.Optional&lt;Swift.String&gt; in closure #1 () async -&gt; () in TODO_SwiftUI.AuthStore.init(modelContext: SwiftData.ModelContext, api: TODO_SwiftUI.APIHandler) -&gt; TODO_SwiftUI.AuthStore"
+                  moduleName = "TODO-SwiftUI.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appsquadz/Documents/Apps/Codex/TODO-SwiftUI/Auth/AuthStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CBE69790-D50A-49BD-98C7-5726F2D2AE0B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TODO-SwiftUI/Auth/AuthStore.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "init(modelContext:api:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "CBE69790-D50A-49BD-98C7-5726F2D2AE0B - 730beef6f59cad21"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #2 @Sendable () async -&gt; Swift.Optional&lt;Swift.String&gt; in closure #1 () async -&gt; () in TODO_SwiftUI.AuthStore.init(modelContext: SwiftData.ModelContext, api: TODO_SwiftUI.APIHandler) -&gt; TODO_SwiftUI.AuthStore"
+                  moduleName = "TODO-SwiftUI.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appsquadz/Documents/Apps/Codex/TODO-SwiftUI/Auth/AuthStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32">
+               </Location>
+               <Location
+                  uuid = "CBE69790-D50A-49BD-98C7-5726F2D2AE0B - 66b9bc18c3680f20"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) suspend resume partial function for closure #2 @Sendable () async -&gt; Swift.Optional&lt;Swift.String&gt; in closure #1 () async -&gt; () in TODO_SwiftUI.AuthStore.init(modelContext: SwiftData.ModelContext, api: TODO_SwiftUI.APIHandler) -&gt; TODO_SwiftUI.AuthStore"
+                  moduleName = "TODO-SwiftUI.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appsquadz/Documents/Apps/Codex/TODO-SwiftUI/Auth/AuthStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32">
+               </Location>
+               <Location
+                  uuid = "CBE69790-D50A-49BD-98C7-5726F2D2AE0B - 59d7930b10456123"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for closure #2 @Sendable () async -&gt; Swift.Optional&lt;Swift.String&gt; in closure #1 () async -&gt; () in TODO_SwiftUI.AuthStore.init(modelContext: SwiftData.ModelContext, api: TODO_SwiftUI.APIHandler) -&gt; TODO_SwiftUI.AuthStore"
+                  moduleName = "TODO-SwiftUI.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appsquadz/Documents/Apps/Codex/TODO-SwiftUI/Auth/AuthStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32">
+               </Location>
+               <Location
+                  uuid = "CBE69790-D50A-49BD-98C7-5726F2D2AE0B - b305663d7d52c322"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for closure #2 @Sendable () async -&gt; Swift.Optional&lt;Swift.String&gt; in closure #1 () async -&gt; () in TODO_SwiftUI.AuthStore.init(modelContext: SwiftData.ModelContext, api: TODO_SwiftUI.APIHandler) -&gt; TODO_SwiftUI.AuthStore"
+                  moduleName = "TODO-SwiftUI.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appsquadz/Documents/Apps/Codex/TODO-SwiftUI/Auth/AuthStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32">
+               </Location>
+               <Location
+                  uuid = "CBE69790-D50A-49BD-98C7-5726F2D2AE0B - a6b3352f4a2e2525"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) suspend resume partial function for closure #2 @Sendable () async -&gt; Swift.Optional&lt;Swift.String&gt; in closure #1 () async -&gt; () in TODO_SwiftUI.AuthStore.init(modelContext: SwiftData.ModelContext, api: TODO_SwiftUI.APIHandler) -&gt; TODO_SwiftUI.AuthStore"
+                  moduleName = "TODO-SwiftUI.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appsquadz/Documents/Apps/Codex/TODO-SwiftUI/Auth/AuthStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32">
+               </Location>
+               <Location
+                  uuid = "CBE69790-D50A-49BD-98C7-5726F2D2AE0B - 99e10851973b8724"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(6) suspend resume partial function for closure #2 @Sendable () async -&gt; Swift.Optional&lt;Swift.String&gt; in closure #1 () async -&gt; () in TODO_SwiftUI.AuthStore.init(modelContext: SwiftData.ModelContext, api: TODO_SwiftUI.APIHandler) -&gt; TODO_SwiftUI.AuthStore"
+                  moduleName = "TODO-SwiftUI.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appsquadz/Documents/Apps/Codex/TODO-SwiftUI/Auth/AuthStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6200E509-E1EB-43C2-92F9-E5F2033A211A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TODO-SwiftUI/Networking/APIHandler.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "request(_:method:body:authorized:responseType:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B11F88AB-AA3D-4A2B-ADD0-50206C37F489"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TODO-SwiftUI/Screens/Home/HomeScreenView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "B11F88AB-AA3D-4A2B-ADD0-50206C37F489 - 7ce943530a076ea4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #4 () -&gt; TODO_SwiftUI.LoginView in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.fullScreenCover&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(isPresented: SwiftUI.Binding&lt;Swift.Bool&gt;, onDismiss: Swift.Optional&lt;() -&gt; ()&gt;, content: () -&gt; &#x3c4;_1_0) -&gt; some&gt;&gt;.0 in closure #1 () -&gt; SwiftUI.TupleView&lt;(TODO_SwiftUI.GradientBackground, SwiftUI.NavigationStack&lt;Swift.Array&lt;Swift.String&gt;, &lt;&lt;opaque return type of SwiftUI.View.fullScreenCover&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(isPresented: SwiftUI.Binding&lt;Swift.Bool&gt;, onDismiss: Swift.Optional&lt;() -&gt; ()&gt;, content: () -&gt; &#x3c4;_1_0) -&gt; some&gt;&gt;.0&gt;)&gt; in TODO_SwiftUI.HomeScreenView.body.getter : some"
+                  moduleName = "TODO-SwiftUI.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appsquadz/Documents/Apps/Codex/TODO-SwiftUI/Screens/Home/HomeScreenView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "105"
+                  endingLineNumber = "105">
+               </Location>
+               <Location
+                  uuid = "B11F88AB-AA3D-4A2B-ADD0-50206C37F489 - 35a76ed2fa3b71ec"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in closure #4 () -&gt; TODO_SwiftUI.LoginView in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.fullScreenCover&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(isPresented: SwiftUI.Binding&lt;Swift.Bool&gt;, onDismiss: Swift.Optional&lt;() -&gt; ()&gt;, content: () -&gt; &#x3c4;_1_0) -&gt; some&gt;&gt;.0 in closure #1 () -&gt; SwiftUI.TupleView&lt;(TODO_SwiftUI.GradientBackground, SwiftUI.NavigationStack&lt;Swift.Array&lt;Swift.String&gt;, &lt;&lt;opaque return type of SwiftUI.View.fullScreenCover&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(isPresented: SwiftUI.Binding&lt;Swift.Bool&gt;, onDismiss: Swift.Optional&lt;() -&gt; ()&gt;, content: () -&gt; &#x3c4;_1_0) -&gt; some&gt;&gt;.0&gt;)&gt; in TODO_SwiftUI.HomeScreenView.body.getter : some"
+                  moduleName = "TODO-SwiftUI.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appsquadz/Documents/Apps/Codex/TODO-SwiftUI/Screens/Home/HomeScreenView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "107"
+                  endingLineNumber = "107">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DCB2EE45-F081-4D01-A44F-578B8E4C00C6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TODO-SwiftUI/Screens/Home/HomeScreenView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FBF217A7-4721-4165-8689-A5EBC769A313"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TODO-SwiftUI/Screens/Login/LoginViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "submit()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

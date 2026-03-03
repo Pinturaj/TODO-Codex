@@ -21,16 +21,19 @@ final class AuthStore: ObservableObject {
         self.modelContext = modelContext
         self.api = api
         let keychain = self.keychain
-        Task {
+
+        // Provide async closures as required by APIHandler.setTokenProviders, called from an async context
+        Task { @MainActor in
             await api.setTokenProviders(
-                access: {
-                    keychain.read(TokenKeys.access)
+                access: { () async -> String? in
+                    await keychain.read(TokenKeys.access)
                 },
-                refresh: {
-                    keychain.read(TokenKeys.refresh)
+                refresh: { () async -> String? in
+                    await keychain.read(TokenKeys.refresh)
                 }
             )
         }
+
         loadSession()
     }
 
@@ -90,7 +93,6 @@ final class AuthStore: ObservableObject {
     func login(username: String, password: String) async throws {
         let req = LoginRequest(username: username, password: password, expiresInMins: 30)
         let resp: LoginResponse = try await api.request("/auth/login", method: "POST", body: req, authorized: false)
-
         let access = resp.accessToken ?? resp.token ?? ""
         guard !access.isEmpty else { throw APIError.unauthorized }
 

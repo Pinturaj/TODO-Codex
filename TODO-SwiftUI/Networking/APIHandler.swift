@@ -29,6 +29,8 @@ actor APIHandler {
         do {
             let (data, response) = try await URLSession.shared.data(for: urlRequest)
             guard let http = response as? HTTPURLResponse else { throw APIError.transport(URLError(.badServerResponse)) }
+            
+            prettyPrintJSON(data: data, response: http)
 
             switch http.statusCode {
             case 200..<300:
@@ -43,6 +45,9 @@ actor APIHandler {
                 urlRequest = try await makeRequest(path: path, method: method, body: body, authorized: authorized)
                 let (data2, response2) = try await URLSession.shared.data(for: urlRequest)
                 guard let http2 = response2 as? HTTPURLResponse else { throw APIError.transport(URLError(.badServerResponse)) }
+                
+                prettyPrintJSON(data: data2, response: http2)
+
                 guard (200..<300).contains(http2.statusCode) else {
                     if http2.statusCode == 401 { throw APIError.unauthorized }
                     throw APIError.server(status: http2.statusCode)
@@ -119,6 +124,45 @@ actor APIHandler {
             for c in continuations { c.resume(throwing: error) }
         } else {
             for c in continuations { c.resume() }
+        }
+    }
+
+    // MARK: - Debug helpers
+
+    private func prettyPrintJSON(data: Data, response: HTTPURLResponse) {
+        let urlString = response.url?.absoluteString ?? "<no url>"
+        let status = response.statusCode
+        let headers = response.allHeaderFields
+
+        // Try JSON pretty print
+        if let obj = try? JSONSerialization.jsonObject(with: data, options: []),
+           JSONSerialization.isValidJSONObject(obj),
+           let prettyData = try? JSONSerialization.data(withJSONObject: obj, options: [.prettyPrinted]),
+           let prettyString = String(data: prettyData, encoding: .utf8) {
+            print("=== API Response ===")
+            print("URL: \(urlString)")
+            print("Status: \(status)")
+            print("Headers: \(headers)")
+            print("Body (pretty JSON):\n\(prettyString)")
+            print("====================")
+            return
+        }
+
+        // Fallback to UTF-8 text
+        if let text = String(data: data, encoding: .utf8) {
+            print("=== API Response ===")
+            print("URL: \(urlString)")
+            print("Status: \(status)")
+            print("Headers: \(headers)")
+            print("Body (text):\n\(text)")
+            print("====================")
+        } else {
+            print("=== API Response ===")
+            print("URL: \(urlString)")
+            print("Status: \(status)")
+            print("Headers: \(headers)")
+            print("Body: <\(data.count) bytes, not UTF-8>")
+            print("====================")
         }
     }
 }

@@ -87,7 +87,7 @@ private struct RootView: View {
     @EnvironmentObject private var auth: AuthStore
 
     var body: some View {
-        ContentView()
+        HomeScreenView()
             .environmentObject(auth)
             .onAppear {
                 // Re-wire model context into stores once available
